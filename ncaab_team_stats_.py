@@ -58,18 +58,31 @@ def rank_3pt_rebounds_lowTurnovers(conf):
     ranking = rank_teams(list_of_dfs, num_teams)
     return ranking
 
+def rank_ppg_apg(conf):
+    urls = conference_dictionary(conf)
+    best_ppg_df = get_stat_df(urls['scoring'])[['Team', 'PPG']].sort_values('PPG', ascending=False)
+    best_apg_df = get_stat_df(urls['passing'])[['Team', 'APG']].sort_values('APG', ascending=False)
+
+    num_teams = best_ppg_df.shape[0]
+    list_of_dfs = [best_ppg_df, best_apg_df]
+
+    ranking = rank_teams(list_of_dfs, num_teams)
+    return ranking
 
 ###merges rankings of power 5 conferences and sorts
-def sort_power5():
-    big10 = rank_3pt_rebounds_lowTurnovers('BIG10')
-    acc = rank_3pt_rebounds_lowTurnovers('ACC')
-    big12 = rank_3pt_rebounds_lowTurnovers('BIG12')
-    pac12 = rank_3pt_rebounds_lowTurnovers('PAC12')
-    sec = rank_3pt_rebounds_lowTurnovers("SEC")
+def sort_power5(function_name):
+    big10 = function_name('BIG10')
+    acc = function_name('ACC')
+    big12 = function_name('BIG12')
+    pac12 = function_name('PAC12')
+    sec = function_name("SEC")
     power5 = {**big10, **acc, **big12, **pac12, **sec}
     power5_sorted = dict(sorted(power5.items(), key=lambda item: item[1], reverse=True))
     return power5_sorted
 
 
 if __name__ == '__main__':
-    print(sort_power5())
+    print(sort_power5(rank_3pt_rebounds_lowTurnovers))
+    print(sort_power5(rank_ppg_apg))
+
+
