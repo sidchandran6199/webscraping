@@ -25,11 +25,11 @@ class MyTest(unittest.TestCase):
         assert urls['steals'] == 'https://www.cbssports.com/college-basketball/stats/team/team/steals/ACC/'
         assert urls['blocks'] == 'https://www.cbssports.com/college-basketball/stats/team/team/blocks/ACC/'
 
-    def test_rank_3pt_rebounds_lowTurnovers(self):
-        ranking = rank_3pt_rebounds_lowTurnovers('ACC')
-        assert ranking['Virginia'] == 32
-        assert ranking ['Syracuse'] == 31
-        assert ranking ['Florida St.'] == 30
+    # def test_rank_3pt_rebounds_lowTurnovers(self):
+    #     ranking = rank_3pt_rebounds_lowTurnovers('ACC')
+    #     assert ranking['Virginia'] == 32
+    #     assert ranking ['Syracuse'] == 31
+    #     assert ranking ['Florida St.'] == 30
 
 
 

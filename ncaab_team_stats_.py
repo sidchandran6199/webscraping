@@ -66,7 +66,6 @@ def sort_power5():
     big12 = rank_3pt_rebounds_lowTurnovers('BIG12')
     pac12 = rank_3pt_rebounds_lowTurnovers('PAC12')
     sec = rank_3pt_rebounds_lowTurnovers("SEC")
-    print(acc)
     power5 = {**big10, **acc, **big12, **pac12, **sec}
     power5_sorted = dict(sorted(power5.items(), key=lambda item: item[1], reverse=True))
     return power5_sorted
