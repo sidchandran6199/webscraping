@@ -2,6 +2,8 @@ from ncaab_team_stats_ import get_stat_df, update_columns, rank_teams, conferenc
     rank_3pt_rebounds_lowTurnovers
 import unittest
 import pandas as pd
+
+
 class MyTest(unittest.TestCase):
 
     def setUp(self):
@@ -24,24 +26,20 @@ class MyTest(unittest.TestCase):
         assert urls['steals'] == 'https://www.cbssports.com/college-basketball/stats/team/team/steals/ACC/'
         assert urls['blocks'] == 'https://www.cbssports.com/college-basketball/stats/team/team/blocks/ACC/'
 
-    def rank_teams_test(self):
-        test_data_1 = [['virgina', 10], ['florida', 5], ['florida st.', 3]]
-        test_data_2 = [[['florida', 10], ['florida st.', 5], ['virginia', 3]]]
+    def test_rank_teams(self):
+        test_data_1 = [['virginia', 10], ['florida', 5], ['florida st.', 3]]
+        test_data_2 = [['florida', 10], ['florida st.', 5], ['virginia', 3]]
 
-        df_test_1 = pd.DataFrame(test_data_1, columns = ['Team', 'Stat'])
-        df_test_2 = pd.DataFrame(test_data_2, columns = ['Team', 'Stat'])
+        df_test_1 = pd.DataFrame(test_data_1, columns=['Team', 'Stat'])
+        df_test_2 = pd.DataFrame(test_data_2, columns=['Team', 'Stat'])
 
         df_list = [df_test_1, df_test_2]
 
         scoring_dict = rank_teams(df_list, 3)
-        assert scoring_dict['virgina'] == 4
+        assert scoring_dict['virginia'] == 4
         assert scoring_dict['florida'] == 5
         assert scoring_dict['florida st.'] == 3
 
 
-
-
-
-
 if __name__ == '__main__':
-     unittest.main()
+    unittest.main()
