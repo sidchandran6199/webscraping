@@ -36,9 +36,9 @@ class MyTest(unittest.TestCase):
         df_list = [df_test_1, df_test_2]
 
         scoring_dict = rank_teams(df_list, 3)
-        assert scoring_dict['virginia'] == 4
-        assert scoring_dict['florida'] == 5
-        assert scoring_dict['florida st.'] == 3
+        assert scoring_dict['virginia'] == 4/3
+        assert scoring_dict['florida'] == 5/3
+        assert scoring_dict['florida st.'] == 1
 
 
 if __name__ == '__main__':

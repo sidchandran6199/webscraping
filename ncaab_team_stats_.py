@@ -31,8 +31,11 @@ def rank_teams(df_list, num_teams):
             team = row['Team']
             team_points[team] += points
             points -= 1
-    return team_points
 
+    for team in team_points:
+        team_points[team] = team_points[team] / num_teams
+
+    return team_points
 
 ####dynamically specifies urls for a specific conference.
 def conference_dictionary(conf):
@@ -70,19 +73,22 @@ def rank_ppg_apg(conf):
     return ranking
 
 ###merges rankings of power 5 conferences and sorts
-def sort_power5(function_name):
+def sort_conferences(function_name):
     big10 = function_name('BIG10')
     acc = function_name('ACC')
     big12 = function_name('BIG12')
     pac12 = function_name('PAC12')
     sec = function_name("SEC")
-    power5 = {**big10, **acc, **big12, **pac12, **sec}
+    bigeast = function_name("BIGE")
+    wcc = function_name("WCC")
+    power5 = {**big10, **acc, **big12, **pac12, **sec, **bigeast, **wcc}
     power5_sorted = dict(sorted(power5.items(), key=lambda item: item[1], reverse=True))
     return power5_sorted
 
 
+
 if __name__ == '__main__':
-    print(sort_power5(rank_3pt_rebounds_lowTurnovers))
-    print(sort_power5(rank_ppg_apg))
+    print(sort_conferences(rank_3pt_rebounds_lowTurnovers))
+    print(sort_conferences(rank_ppg_apg))
 
 
