@@ -37,6 +37,7 @@ def rank_teams(df_list, num_teams):
 
     return team_points
 
+
 ####dynamically specifies urls for a specific conference.
 def conference_dictionary(conf):
     urls = {
@@ -61,6 +62,7 @@ def rank_3pt_rebounds_lowTurnovers(conf):
     ranking = rank_teams(list_of_dfs, num_teams)
     return ranking
 
+
 def rank_ppg_apg(conf):
     urls = conference_dictionary(conf)
     best_ppg_df = get_stat_df(urls['scoring'])[['Team', 'PPG']].sort_values('PPG', ascending=False)
@@ -72,6 +74,31 @@ def rank_ppg_apg(conf):
     ranking = rank_teams(list_of_dfs, num_teams)
     return ranking
 
+
+def rank_steals_blocks_rebounding(conf):
+    urls = conference_dictionary(conf)
+    best_spg_df = best_ppg_df = get_stat_df(urls['steals'])[['Team', 'SPG']].sort_values('SPG', ascending=False)
+    best_bpg_df = best_ppg_df = get_stat_df(urls['blocks'])[['Team', 'BPG']].sort_values('BPG', ascending=False)
+    best_rebounding_df = get_stat_df(urls['rebounding'])[['Team', 'RPG']].sort_values('RPG', ascending=False)
+    num_teams = best_ppg_df.shape[0]
+    list_of_dfs = [best_spg_df, best_bpg_df, best_rebounding_df]
+
+    ranking = rank_teams(list_of_dfs, num_teams)
+    return ranking
+
+
+def rank_shooting(conf):
+    urls = conference_dictionary(conf)
+    best_FG_df = best_ppg_df = get_stat_df(urls['scoring'])[['Team', 'FG%']].sort_values('FG%', ascending=False)
+    best_3FG_df = best_ppg_df = get_stat_df(urls['scoring'])[['Team', '3FG%']].sort_values('3FG%', ascending=False)
+
+    num_teams = best_ppg_df.shape[0]
+    list_of_dfs = [best_FG_df, best_3FG_df]
+
+    ranking = rank_teams(list_of_dfs, num_teams)
+    return ranking
+
+
 ###merges rankings of power 5 conferences and sorts
 def sort_conferences(function_name):
     big10 = function_name('BIG10')
@@ -81,14 +108,14 @@ def sort_conferences(function_name):
     sec = function_name("SEC")
     bigeast = function_name("BIGE")
     wcc = function_name("WCC")
-    power5 = {**big10, **acc, **big12, **pac12, **sec, **bigeast, **wcc}
+    aac = function_name("AAC")
+    power5 = {**big10, **acc, **big12, **pac12, **sec, **bigeast, **wcc, **aac}
     power5_sorted = dict(sorted(power5.items(), key=lambda item: item[1], reverse=True))
     return power5_sorted
-
 
 
 if __name__ == '__main__':
     print(sort_conferences(rank_3pt_rebounds_lowTurnovers))
     print(sort_conferences(rank_ppg_apg))
-
-
+    print(sort_conferences(rank_steals_blocks_rebounding))
+    print(sort_conferences(rank_shooting))
